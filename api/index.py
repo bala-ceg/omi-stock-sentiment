@@ -149,4 +149,7 @@ def setup_status():
             "error": f"An unexpected error occurred: {str(e)}"
         }), 500
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
