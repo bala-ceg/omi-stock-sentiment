@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
-openai.base_key = os.getenv("OPENAI_BASE_URL")
+openai.base = os.getenv("OPENAI_BASE_URL")
 ALPHAVANTAGE_KEY = os.getenv("ALPHAVANTAGE_KEY")
 
 # Store for aggregating messages
