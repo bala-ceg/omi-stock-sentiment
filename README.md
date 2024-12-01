@@ -1,28 +1,125 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fflask3&demo-title=Flask%203%20%2B%20Vercel&demo-description=Use%20Flask%203%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fflask3-python-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994156/random/flask.png)
+# Stock Sentiment Analyzer with OMI
 
-# Flask + Vercel
+Stock Sentiment Analyzer is a Flask-based web application designed to simplify stock sentiment analysis. It integrates OpenAI’s GPT-3.5-turbo for natural language processing and Alpha Vantage to fetch real-time sentiment data, empowering users with actionable insights from stock-related queries.
 
-This example shows how to use Flask 3 on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
+---
 
-## Demo
+## Features
 
-https://flask-python-template.vercel.app/
+- **NLP for Stock Queries**: Extracts stock symbols from natural language inputs.
+- **Sentiment Analysis**: Fetches and analyzes sentiment data for stocks via Alpha Vantage.
+- **Validation**: Validates stock tickers against Yahoo Finance for accuracy.
+- **Cooldown Mechanism**: Limits API calls to prevent excessive usage.
+- **User Interface**: Clean, responsive design built with Tailwind CSS.
+- **Error Handling**: Robust error management with detailed logging.
 
-## How it Works
+---
 
-This example uses the Web Server Gateway Interface (WSGI) with Flask to enable handling requests on Vercel with Serverless Functions.
 
-## Running Locally
+## Getting Started
 
-```bash
-npm i -g vercel
-vercel dev
+### Prerequisites
+
+- Python 3.10 or higher
+- OpenAI API key
+- Alpha Vantage API key
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/stock-sentiment-analyzer.git
+   cd stock-sentiment-analyzer
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Set up environment variables by creating a `.env` file:
+   ```env
+   OPENAI_API_KEY=your_openai_api_key
+   ALPHAVANTAGE_KEY=your_alpha_vantage_api_key
+   ```
+4. Run the application:
+   ```bash
+   python app.py
+   ```
+5. Access the application:
+   Open your browser and navigate to `http://127.0.0.1:5000`.
+
+---
+
+## API Endpoints
+
+### `POST /webhook`
+- **Description**: Accepts user queries and responds with sentiment insights.
+- **Request Body**:
+  ```json
+  {
+    "id": "session_id",
+    "structured": {
+      "overview": "Analyze the Apple stock for me"
+    }
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "Stock: AAPL, Sentiment: Positive"
+  }
+  ```
+
+### `GET /`
+- **Description**: Displays the homepage with application instructions.
+
+---
+
+## Project Structure
+
+```
+.
+├── app.py                # Main Flask application
+├── templates/
+│   └── index.html        # Frontend HTML templates
+├── static/
+│   └── css/              # Tailwind CSS styles
+├── requirements.txt      # Python dependencies
+├── .env                  # Environment variables
+├── README.md             # Project documentation
+└── LICENSE               # License information
 ```
 
-Your Flask application is now available at `http://localhost:3000`.
+---
 
-## One-Click Deploy
+## Built With
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+- **Flask**: Python web framework.
+- **OpenAI GPT-3.5-turbo**: For natural language processing.
+- **Alpha Vantage API**: Real-time stock sentiment analysis.
+- **Yahoo Finance API**: Ticker symbol validation.
+- **Tailwind CSS**: Frontend design and styling.
+- **Tenacity**: Retry mechanism for API calls.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fflask3&demo-title=Flask%203%20%2B%20Vercel&demo-description=Use%20Flask%203%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fflask3-python-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994156/random/flask.png)
+---
+
+## Contributing
+
+We welcome contributions! To contribute:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-name`).
+3. Commit your changes (`git commit -m 'Add new feature'`).
+4. Push to the branch (`git push origin feature-name`).
+5. Open a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## Disclaimer
+
+The sentiment analysis provided is for informational purposes only and should not be considered financial advice. Please consult a financial advisor before making investment decisions.
+
