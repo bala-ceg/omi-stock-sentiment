@@ -76,22 +76,63 @@ def webhook():
     data = request.json
     logger.info(f"Received data: {data}")
 
-    session_id = data.get("id")
+    session_id = data.get("session_id")
     if not session_id:
-        return jsonify({"status": "error", "message": "No session id provided"}), 400
+        logger.error("No session_id provided in request")
+        return (
+            jsonify({"status": "error", "message": "No session_id provided"}),
+            400,
+        )
 
-    overview = data.get("structured", {}).get("overview")
-    if not overview:
-        return jsonify({"status": "error", "message": "No overview provided"}), 400
+    segments = data.get("segments", [])
+    logger.info(
+        f"Processing session_id: {session_id}, number of segments: {len(segments)}"
+    )
 
     current_time = time.time()
 
-    #Check notification cooldown
+    # Check notification cooldown for this session
     time_since_last_notification = current_time - notification_cooldowns[session_id]
     if time_since_last_notification < NOTIFICATION_COOLDOWN:
+        logger.info(
+            f"Notification cooldown active for session {session_id}. {NOTIFICATION_COOLDOWN - time_since_last_notification:.0f}s remaining"
+        )
         return jsonify({"status": "success"}), 200
 
-    intent = analyze_stock_intent(overview)
+    for segment in segments:
+        if segment["text"]:  # Only store non-empty segments
+            message_buffer[session_id].append(
+                {
+                    "start": segment["start"],
+                    "end": segment["end"],
+                    "text": segment["text"],
+                    "speaker": segment["speaker"],
+                }
+            )
+            logger.info(
+                f"Added segment text for session {session_id}: {segment['text']}"
+            )
+
+    # Check if it's time to process messages
+    time_since_last = current_time - last_print_time[session_id]
+    logger.info(
+        f"Time since last process: {time_since_last}s (threshold: {AGGREGATION_INTERVAL}s)"
+    )
+
+    if time_since_last >= AGGREGATION_INTERVAL and message_buffer[session_id]:
+        logger.info(f"Processing aggregated messages for session {session_id}...")
+        sorted_messages = sorted(
+            message_buffer[session_id], key=lambda x: x["start"]
+        )
+        combined_text = " ".join(
+            msg["text"] for msg in sorted_messages if msg["text"]
+        )
+        logger.info(
+            f"Analyzing combined text for session {session_id}: {combined_text}"
+        )
+
+
+    intent = analyze_stock_intent(combined_text)
     if not intent :
         return jsonify({"status": "error"}), 400
 
