@@ -122,6 +122,4 @@ def webhook():
             return jsonify({"status": "error", "message": sentiment_data["error"], "Reason": "Please provide a valid stock"}), 500
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
