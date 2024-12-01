@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Sentiment Analyzer with OMI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Market Mood with OMI</h1>
+        
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">How to Use it </h2>
+            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                <li> Say the Company Name of the stock to Omi. For example: Analyse the Apple stock for me</li>
+                <li>This will create memory trigger and calls the Stock Sentiment Analyzer app and fetches the sentiment of the stock</li>
+                
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Key Features</h2>
+            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                <li>Natural Language Processing for stock intent detection</li>
+                <li>Integration with OpenAI for improved text analysis</li>
+                <li>Real-time stock data fetching from Alpha Vantage</li>
+                <li>Cooldown mechanism to prevent excessive API calls</li>
+                <li>Error handling and logging for robust operation</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">How It Works</h2>
+            <ol class="list-decimal pl-6 space-y-2 text-gray-700">
+                <li>Receive webhook data with stock-related information</li>
+                <li>Extract stock symbol using natural language processing</li>
+                <li>Validate the extracted stock symbol</li>
+                <li>Fetch sentiment data for the valid stock</li>
+                <li>Analyze and summarize the sentiment data</li>
+                <li>Return the results as a JSON response</li>
+            </ol>
+        </section>
+
+        <footer class="mt-8 text-center text-gray-500 text-sm">
+            <p>© 2024 Stock Sentiment Analyzer. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
