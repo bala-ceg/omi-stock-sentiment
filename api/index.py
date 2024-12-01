@@ -149,6 +149,11 @@ def setup_status():
             "error": f"An unexpected error occurred: {str(e)}"
         }), 500
 
+
+@app.route("/auth", methods=["POST"])
+def auth():
+   return jsonify({"status": "success"}), 200
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
