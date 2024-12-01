@@ -1,1 +1,4 @@
 Flask==3.0.3
+tenacity
+requests
+openai==0.28
