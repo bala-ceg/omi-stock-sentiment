@@ -122,4 +122,31 @@ def webhook():
             return jsonify({"status": "error", "message": sentiment_data["error"], "Reason": "Please provide a valid stock"}), 500
 
 
+@app.route('/webhook/setup-status', methods=['GET'])
+def setup_status():
+    try:
+        # Check if the required API keys are set
+        openai_key = os.getenv("OPENAI_API_KEY")
+        alphavantage_key = os.getenv("ALPHAVANTAGE_KEY")
+
+        if not openai_key or not alphavantage_key:
+            missing_keys = []
+            if not openai_key:
+                missing_keys.append("OPENAI_API_KEY")
+            if not alphavantage_key:
+                missing_keys.append("ALPHAVANTAGE_KEY")
+            
+            return jsonify({
+                "is_setup_completed": False,
+                "error": f"Missing API key(s): {', '.join(missing_keys)}"
+            }), 400
+
+        return jsonify({"is_setup_completed": True}), 200
+    except Exception as e:
+        logger.error(f"Error checking setup status: {str(e)}")
+        return jsonify({
+            "is_setup_completed": False,
+            "error": f"An unexpected error occurred: {str(e)}"
+        }), 500
+
 
